@@ -1,29 +1,33 @@
-@extends('welcome')
+@extends('app')
+@php($categories = \App\Categories::all())
 @section('content')
-    <div class="box-body">
-        <div class="row">
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="text-center col-10">
             {!! Form::model($article, ['route' => ['articles.update', $article->id], 'method' => 'patch']) !!}
-            <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+            <div class="form-group">
                 {!! Form::label('title', 'Title') !!}
-                {!! Form::text('value', null, ['class' => 'form-control', 'id'=>'title']) !!}
+                {!! Form::text('title', $article->title, ['class' => 'form-control', 'id'=>'title']) !!}
             </div>
-            <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+            <div class="form-group">
                 {!! Form::label('text', 'Text:') !!}
-                {!! Form::text('text', null, ['class' => 'form-control','id'=>'text']) !!}
+                {!! Form::text('text', $article->text, ['class' => 'form-control','id'=>'text']) !!}
             </div>
-            <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                <b>Projetos:</b>
-                <select name="project_id" class="dropdown form-control btn-md">
+            <div class="form-group">
+                <b>Category:</b>
+                <select name="cat_id" class="dropdown form-control btn-md">
+                    @if ($categories == null)
+                        <option value="0"><b>Ainda não existem categorias cadastrados!</b></option>
+                    @endif
                     @foreach($categories as $c)
                         <option value="{{$c->id}}">{{$c->name}}</option>
                     @endforeach
-                    <option value="0"> <b>Ainda não existem categorias cadastrados!</b></option>
                 </select>
             </div>
 
-            <div class="form-group col-sm-12">
-                {!! Form::submit('Salvar', ['class' => 'btn btn-success']) !!}
-                <a href="{!! route('welcome.index') !!}" class="btn btn-danger">Cancelar</a>
+            <div class="form-group">
+                {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
+                <a href="{!! route('Welcome') !!}" class="btn btn-danger">Cancel</a>
             </div>
             {!! Form::close() !!}
         </div>
